@@ -20,15 +20,15 @@ A simple mock injector compatible needing no instrumentation in the libraries be
     
 ### Usage
 
-* *`var mymod = requireInject( module, mocks )`*
+* **`var mymod = requireInject( module, mocks )`**
 
-**module** is the name of the module you want to require. 
+*module* is the name of the module you want to require.
 
-**mocks** is an object with keys that are the names of the modules you want
-**to mock and values of the mock version of the objects.
+*mocks* is an object with keys that are the names of the modules you want
+*to mock and values of the mock version of the objects.
 
-*requireInject* makes it so that when **module** is required, any of its
-calls to require for modules inclued in **mocks** will return the mocked
-version.  It takes care to not impact any other uses of **module**, any
+**requireInject** makes it so that when *module* is required, any of its
+calls to require for modules inclued in *mocks* will return the mocked
+version.  It takes care to not impact any other uses of *module*, any
 calls to require for it will get a version without mocks.
 
