@@ -4,7 +4,7 @@
   "description": "A simple mock injector compatible needing no instrumentation in the libraries being tested",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap test/*.js"
   },
   "author": "Rebecca Turner <me@re-becca.org> (http://re-becca.org)",
   "keywords": [
@@ -18,5 +18,8 @@
     "type": "git",
     "url": "git@github.com:iarna/require-inject.git"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "tap": "^0.4.13"
+  }
 }
