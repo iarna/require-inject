@@ -17,6 +17,8 @@ A simple mock injector compatible needing no instrumentation in the libraries be
             }
         }
     })
+
+    var myglobal = requireInject.installGlobally('myglobal', { … })
     
 ### Usage
 
@@ -32,3 +34,8 @@ calls to require for modules inclued in *mocks* will return the mocked
 version.  It takes care to not impact any other uses of *module*, any
 calls to require for it will get a version without mocks.
 
+* **`var myglobal = requireInject.installGlobally( module, mocks)`**
+
+As with `requireInject`, except that the module and its mocks are left in
+the require cache and any future requires will end up using them too. This is
+helpful particularly in the case of things that defer loading.
