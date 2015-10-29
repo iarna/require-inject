@@ -21,5 +21,8 @@
   "license": "ISC",
   "devDependencies": {
     "tap": "^0.4.13"
+  },
+  "dependencies": {
+    "caller": "^1.0.1"
   }
 }

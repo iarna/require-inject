@@ -1,5 +1,6 @@
 "use strict";
 var path = require("path")
+var caller = require('caller');
 
 module.exports = function (toLoad, mocks) {
   // Copy the existing cache
@@ -30,8 +31,9 @@ var installGlobally = module.exports.installGlobally = function (toLoad, mocks) 
     }
   })
 
+  var callerFilename = caller() == module.filename ? caller(2) : caller();
   if (/^[.][.]?\//.test(toLoad)) {
-    toLoad = path.resolve(path.dirname(module.parent.filename), toLoad)
+    toLoad = path.resolve(path.dirname(callerFilename), toLoad)
   }
   var toLoadPath = require.resolve(toLoad)
 
