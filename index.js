@@ -39,7 +39,6 @@ var installGlobally = module.exports.installGlobally = function (toLoad, mocks) 
 
   // remove any unmocked version previously loaded
   delete require.cache[toLoadPath]
-
   // load our new version using our mocks
-  return module.parent.require(toLoadPath)
+  return require.cache[callerFilename].require(toLoadPath);
 }
