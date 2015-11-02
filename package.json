@@ -20,7 +20,7 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "tap": "^0.4.13"
+    "tap": "^2.2.0"
   },
   "dependencies": {
     "caller": "^1.0.1"
