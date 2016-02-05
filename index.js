@@ -19,23 +19,28 @@ module.exports = function (toLoad, mocks) {
   return mocked
 }
 
+function resolve(callerFilename, name) {
+  if (/^[.][.]?\//.test(name)) {
+    name = path.resolve(path.dirname(callerFilename), name)
+  }
+  return require.resolve(name)
+}
+
 var installGlobally = module.exports.installGlobally = function (toLoad, mocks) {
+  var callerFilename = caller() == module.filename ? caller(2) : caller();
+
   // Inject all of our mocks
   Object.keys(mocks).forEach(function(name){
-    var path = require.resolve(name)
+    var namePath = resolve(callerFilename, name)
     if (mocks[name] == null) {
-      delete require.cache[path]
+      delete require.cache[namePath]
     }
     else {
-      require.cache[path] = {exports: mocks[name]}
+      require.cache[namePath] = {exports: mocks[name]}
     }
   })
 
-  var callerFilename = caller() == module.filename ? caller(2) : caller();
-  if (/^[.][.]?\//.test(toLoad)) {
-    toLoad = path.resolve(path.dirname(callerFilename), toLoad)
-  }
-  var toLoadPath = require.resolve(toLoad)
+  var toLoadPath = resolve(callerFilename, toLoad)
 
   // remove any unmocked version previously loaded
   delete require.cache[toLoadPath]
