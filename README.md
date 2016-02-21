@@ -20,7 +20,7 @@ A simple mock injector compatible needing no instrumentation in the libraries be
 
     var myglobal = requireInject.installGlobally('myglobal', { … })
     
-### Usage
+### Usage in your tests
 
 * **`var mymod = requireInject( module, mocks )`**
 
@@ -30,7 +30,7 @@ relative paths, the path should be relative to your test script, not to the
 thing you're injecting dependencies into.
 
 *mocks* is an object with keys that are the names of the modules you want
-*to mock and values of the mock version of the objects.
+to mock and values of the mock version of the objects.
 
 **requireInject** makes it so that when *module* is required, any of its
 calls to require for modules inclued in *mocks* will return the mocked
@@ -42,3 +42,15 @@ calls to require for it will get a version without mocks.
 As with `requireInject`, except that the module and its mocks are left in
 the require cache and any future requires will end up using them too. This is
 helpful particularly in the case of things that defer loading.
+
+
+## Brute-force
+
+Since sometimes you need to mock a module which is deep in the hierachy of your require.cache where it is really hard to find out where exactly you required it (It only records where it was required when it was cached) we give you a method to completly delete your require.cache.
+__WARNING:__ This completly kills the sence of the require.cache which can make your tests really slow.
+
+```javascript
+var myMod = requireInject.force('myMod', {
+    fs: ownFsModule
+});
+```
