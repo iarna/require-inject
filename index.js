@@ -5,9 +5,10 @@ var caller = require('caller');
 var requireInject = module.exports = function (toLoad, mocks, force) {
   // Copy the existing cache
   var originalCache = {}
+  var callerFilename = getCallerFilename();
   Object.keys(require.cache).forEach(function(name) {
     originalCache[name] = require.cache[name]
-    if(force){
+    if(force && name !== callerFilename){
       delete require.cache[name]
     }
   })
@@ -37,7 +38,7 @@ var installGlobally = module.exports.installGlobally = function (toLoad, mocks) 
     }
   })
 
-  var callerFilename = caller() == module.filename ? caller(2) : caller();
+  var callerFilename = getCallerFilename();
   if (/^[.][.]?\//.test(toLoad)) {
     toLoad = path.resolve(path.dirname(callerFilename), toLoad)
   }
@@ -46,5 +47,19 @@ var installGlobally = module.exports.installGlobally = function (toLoad, mocks) 
   // remove any unmocked version previously loaded
   delete require.cache[toLoadPath]
   // load our new version using our mocks
-  return require(toLoadPath);
+  return require.cache[callerFilename].require(toLoadPath);
+}
+
+
+function getCallerFilename(){
+  var i = 1;
+  var callerFound = caller(i);
+  while(callerFound === module.filename && i < 6){
+    i++;
+    callerFound = caller(i);
+  }
+  if(i === 5){
+    throw Error('Couldn\'t find callerModule in first 5 moduleCalls')
+  }
+  return callerFound;
 }
