@@ -23,7 +23,7 @@ var requireInject = module.exports = function (toLoad, mocks, force) {
   return mocked
 }
 var force = module.exports.force =  function(toLoad, mocks){
-  requireInject(toLoad, mocks, true);
+  return requireInject(toLoad, mocks, true);
 }
 
 var installGlobally = module.exports.installGlobally = function (toLoad, mocks) {
