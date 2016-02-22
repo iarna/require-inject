@@ -2,11 +2,14 @@
 var path = require("path")
 var caller = require('caller');
 
-module.exports = function (toLoad, mocks) {
+var requireInject = module.exports = function (toLoad, mocks, force) {
   // Copy the existing cache
   var originalCache = {}
   Object.keys(require.cache).forEach(function(name) {
     originalCache[name] = require.cache[name]
+    if(force){
+      delete require.cache[name]
+    }
   })
 
   var mocked = installGlobally(toLoad, mocks)
@@ -17,6 +20,9 @@ module.exports = function (toLoad, mocks) {
   Object.keys(originalCache).forEach(function(name){ require.cache[name] = originalCache[name] })
 
   return mocked
+}
+var force = module.exports.force =  function(toLoad, mocks){
+  requireInject(toLoad, mocks, true);
 }
 
 var installGlobally = module.exports.installGlobally = function (toLoad, mocks) {
@@ -40,5 +46,5 @@ var installGlobally = module.exports.installGlobally = function (toLoad, mocks) 
   // remove any unmocked version previously loaded
   delete require.cache[toLoadPath]
   // load our new version using our mocks
-  return require.cache[callerFilename].require(toLoadPath);
+  return require(toLoadPath);
 }

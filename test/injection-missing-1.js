@@ -4,13 +4,13 @@ var requireInject = require("../index")
 
 
 test("injection leaking at a distance", function(t) {
-  t.plan(2)
+  t.plan(2);
 
   var first = require("./lib/a");
 
   first("in", "out", function (err) { t.ok(err,"shouldn\'t be able to rename") })
 
-  var second = requireInject("./lib/a", {
+  var second = requireInject.force("./lib/a", {
     "fs": {
       rename: function(infile, outfile, cb) {
         cb()
