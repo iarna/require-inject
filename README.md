@@ -24,7 +24,10 @@ A simple mock injector compatible needing no instrumentation in the libraries be
 
 * **`var mymod = requireInject( module, mocks )`**
 
-*module* is the name of the module you want to require.
+*module* is the name of the module you want to require.  This is what you'd
+pass to `require` to load the module from your script. This means that for
+relative paths, the path should be relative to your test script, not to the
+thing you're injecting dependencies into.
 
 *mocks* is an object with keys that are the names of the modules you want
 *to mock and values of the mock version of the objects.
