@@ -2,7 +2,14 @@
 var path = require("path")
 var caller = require('caller');
 
-var requireInject = module.exports = function (toLoad, mocks, force) {
+module.exports = function (toLoad, mocks) {
+  return requireInject(toLoad, mocks);
+}
+module.exports.andClearCache =  function(toLoad, mocks){
+  return requireInject(toLoad, mocks, true);
+}
+
+var requireInject = function (toLoad, mocks, force) {
   // Copy the existing cache
   var originalCache = {}
   var callerFilename = getCallerFilename();
@@ -21,9 +28,6 @@ var requireInject = module.exports = function (toLoad, mocks, force) {
   Object.keys(originalCache).forEach(function(name){ require.cache[name] = originalCache[name] })
 
   return mocked
-}
-var force = module.exports.force =  function(toLoad, mocks){
-  return requireInject(toLoad, mocks, true);
 }
 
 var installGlobally = module.exports.installGlobally = function (toLoad, mocks) {

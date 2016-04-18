@@ -20,6 +20,7 @@
   },
   "license": "ISC",
   "devDependencies": {
+    "tacks": "1.0.11",
     "tap": "^2.2.0"
   },
   "dependencies": {
