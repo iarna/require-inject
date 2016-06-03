@@ -2,25 +2,34 @@
 var path = require('path')
 var caller = require('caller')
 
-module.exports = function (toLoad, mocks) {
+exports = module.exports = function (toLoad, mocks) {
   return requireInject(toLoad, mocks)
 }
-module.exports.andClearCache = function (toLoad, mocks) {
+
+exports.withEmptyCache = function (toLoad, mocks) {
   return requireInject(toLoad, mocks, true)
 }
 
-var requireInject = function (toLoad, mocks, force) {
-  // Copy the existing cache
-  var originalCache = {}
+exports.installGlobally = installGlobally
+
+exports.installGlobally.andClearCache = function (toLoad, mocks) {
   var callerFilename = getCallerFilename()
   Object.keys(require.cache).forEach(function (name) {
+    if (name !== callerFilename) delete require.cache[name]
+  })
+  return installGlobally(toLoad, mocks)
+}
+
+var requireInject = function (toLoad, mocks, withEmptyCache) {
+  // Copy the existing cache
+  var originalCache = {}
+  Object.keys(require.cache).forEach(function (name) {
     originalCache[name] = require.cache[name]
-    if (force && name !== callerFilename) {
-      delete require.cache[name]
-    }
   })
 
-  var mocked = installGlobally(toLoad, mocks)
+  var mocked = withEmptyCache
+    ? installGlobally.andClearCache(toLoad, mocks)
+    : installGlobally(toLoad, mocks)
 
   // restore the cache, we can't just assign originalCache to require.cache as the require
   // object is unique to each module, even though require.cache is shared
@@ -37,7 +46,16 @@ function resolve (callerFilename, name) {
   return require.resolve(name)
 }
 
-var installGlobally = module.exports.installGlobally = function (toLoad, mocks) {
+function getCallerFilename () {
+  var callerFilename
+  for (var ii = 1; ii <= 10; ++ii) {
+    callerFilename = caller(ii)
+    if (callerFilename !== module.filename) return callerFilename
+  }
+  throw new Error("Couldn't find caller that wasn't " + module.filename + ' in most recent 10 stackframes')
+}
+
+function installGlobally (toLoad, mocks) {
   var callerFilename = getCallerFilename()
 
   // Inject all of our mocks
@@ -56,17 +74,4 @@ var installGlobally = module.exports.installGlobally = function (toLoad, mocks) 
   delete require.cache[toLoadPath]
   // load our new version using our mocks
   return require.cache[callerFilename].require(toLoadPath)
-}
-
-function getCallerFilename () {
-  var i = 1
-  var callerFound = caller(i)
-  while (callerFound === module.filename && i < 6) {
-    i++
-    callerFound = caller(i)
-  }
-  if (i === 5) {
-    throw Error('Couldn\'t find callerModule in first 5 moduleCalls')
-  }
-  return callerFound
 }

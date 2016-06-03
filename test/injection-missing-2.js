@@ -50,7 +50,7 @@ test('injection leaking at a distance', function (t) {
   first.b('in', 'out', function (err) { t.ok(err, "shouldn't be able to rename") })
   first.e('in', 'out', function (err) { t.ok(err, "shouldn't be able to rename") })
 
-  var second = requireInject.andClearCache('./lib/d', {
+  var second = requireInject.withEmptyCache('./lib/d', {
     'fs': {
       rename: function (infile, outfile, cb) {
         cb()
