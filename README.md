@@ -37,7 +37,7 @@ calls to require for modules inclued in *mocks* will return the mocked
 version.  It takes care to not impact any other uses of *module*, any
 calls to require for it will get a version without mocks.
 
-* **`var mymod = requireInject.withClearCache(module, mocks)`**
+* **`var mymod = requireInject.withEmptyCache(module, mocks)`**
 
 As with `requireInject` but your require cache will be cleared before requring
 the module to have mocks injected into it. This can be useful when your test shares
@@ -68,6 +68,6 @@ do async loading).
 * **`var myglobal = requireInject.installGlobally.andClearCache(module, mocks)`**
 
 As with `requireInject.installGlobally` but clear the cache first as with
-`requireInject.withClearCache`.  Because this globally clears the cache it
+`requireInject.withEmptyCache`.  Because this globally clears the cache it
 means that any requires after this point will get fresh copies of their
 required modules, even if you required them previously.
