@@ -9,6 +9,7 @@ var requireInject = require('../index')
 var testdir = path.join(__dirname, path.basename(__filename, '.js'))
 var adir = path.join(testdir, 'a')
 var bdir = path.join(testdir, 'b')
+var cdir = path.join(testdir, 'c')
 var brelative = './' + path.relative(__dirname, bdir)
 
 var fixture = new Tacks(
@@ -25,6 +26,13 @@ var fixture = new Tacks(
       "var fs = require('fs');\n" +
       'module.exports = function(infile, outfile, cb) {\n' +
       '  fs.rename(infile, outfile, cb)\n' +
+      '};\n'
+    ),
+    'c.js': File(
+      "'use strict';\n" +
+      "var fs = require('fs');\n" +
+      'module.exports = function(cb) {\n' +
+      '  cb()\n' +
       '};\n'
     )
   })
@@ -60,6 +68,14 @@ test('mock with relative path', function (t) {
 
   a('in', 'out', function (err) {
     t.notOk(err, 'should be able to rename a file')
+  })
+})
+
+test('mock without dependencies', function (t) {
+  var c = requireInject(cdir)
+
+  c(function () {
+    t.end()
   })
 })
 
