@@ -21,6 +21,8 @@ exports.installGlobally.andClearCache = function (toLoad, mocks) {
 }
 
 var requireInject = function (toLoad, mocks, withEmptyCache) {
+  mocks = mocks || {}
+
   // Copy the existing cache
   var originalCache = {}
   Object.keys(require.cache).forEach(function (name) {
