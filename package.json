@@ -26,5 +26,8 @@
   },
   "dependencies": {
     "caller": "^1.0.1"
-  }
+  },
+  "files": [
+    "index.js"
+  ]
 }
