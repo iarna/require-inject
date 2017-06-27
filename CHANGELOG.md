@@ -1,3 +1,7 @@
+## v1.4.2 (2017-06-27)
+
+Made `mocks` in `requireInject( module, mocks )` an optional argument.
+
 ## v1.4.0 (2016-06-03)
 
 Add `requireInject.withEmptyCache` and
