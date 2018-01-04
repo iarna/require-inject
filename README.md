@@ -8,7 +8,7 @@ A simple mock injector compatible needing no instrumentation in the libraries be
     var requireInject = require('require-inject');
 
     var mymod = requireInject('mymod', {
-        'fs' => {
+        'fs': {
             stat: function (file,cb) {
                 switch (file) {
                 case 'testfile1': return cb(null,{})
