@@ -1,4 +1,5 @@
 'use strict'
+var Module = require('module')
 var path = require('path')
 var caller = require('caller')
 
@@ -59,6 +60,7 @@ function getCallerFilename () {
 
 function installGlobally (toLoad, mocks) {
   var callerFilename = getCallerFilename()
+  var parent = require.cache[toLoadPath] || null
 
   // Inject all of our mocks
   Object.keys(mocks).forEach(function (name) {
@@ -66,7 +68,12 @@ function installGlobally (toLoad, mocks) {
     if (mocks[name] == null) {
       delete require.cache[namePath]
     } else {
-      require.cache[namePath] = {exports: mocks[name]}
+      var old = require.cache[namePath]
+      var mod = new Module(namePath, null)
+      mod.filename = namePath
+      mod.exports = mocks[name]
+      mod.parent = old ? old.parent : parent
+      require.cache[namePath] = mod
     }
   })
 
