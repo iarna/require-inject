@@ -3,6 +3,12 @@ var Module = require('module')
 var path = require('path')
 var caller = require('caller')
 
+try {
+  require('readable-stream')
+} catch (_) {
+  // ignore error, just doing the require to work around weirdness in readable-stream
+}
+
 exports = module.exports = function (toLoad, mocks) {
   return requireInject(toLoad, mocks)
 }

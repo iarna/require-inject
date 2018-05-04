@@ -1,3 +1,14 @@
+## v1.4.3 (2018-05-04)
+
+Mocked module will now actually be an instance of Module (thanks [@jdalton](https://github.com/jdalton)!)
+
+When the code loaded via `requireInject` resulted in `readable-stream` being
+loaded anywhere down the require chain would produce failures in
+`readable-stream`'s instanceof checks resulting in crashes.  This has been
+worked around by preloading `readable-stream` when it is available.  This
+won't fix 100% of cases but it will fix the problem most of the time.  If it
+doesn't fix it for you, try adding `readable-stream` as a dev dep.
+
 ## v1.4.2 (2017-06-27)
 
 Made `mocks` in `requireInject( module, mocks )` an optional argument.
