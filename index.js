@@ -78,6 +78,7 @@ function installGlobally (toLoad, mocks) {
       var mod = new Module(namePath, null)
       mod.filename = namePath
       mod.exports = mocks[name]
+      mod.loaded = true
       mod.parent = old ? old.parent : parent
       require.cache[namePath] = mod
     }
