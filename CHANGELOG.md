@@ -1,3 +1,17 @@
+# Change Log
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+<a name="1.4.4"></a>
+## [1.4.4](https://github.com/iarna/require-inject/compare/v1.4.3...v1.4.4) (2018-12-25)
+
+
+### Bug Fixes
+
+* **loaded:** Ensure mocked module’s loaded state is set. ([#17](https://github.com/iarna/require-inject/issues/17)) ([25cac11](https://github.com/iarna/require-inject/commit/25cac11))
+
+
+
 ## v1.4.3 (2018-05-04)
 
 Mocked module will now actually be an instance of Module (thanks [@jdalton](https://github.com/jdalton)!)
@@ -48,4 +62,3 @@ relative path from my own test scripts was the same as the one from
 Many, many thanks to [@jcollado](https://github.com/jcollado) who provided
 the patch, with tests and was kind enough to convince me that this really
 wasn't working as intended.
-

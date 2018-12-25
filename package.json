@@ -1,6 +1,6 @@
 {
   "name": "require-inject",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "A simple mock injector compatible needing no instrumentation in the libraries being tested",
   "main": "index.js",
   "scripts": {
