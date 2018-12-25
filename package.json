@@ -27,11 +27,11 @@
   "license": "ISC",
   "devDependencies": {
     "standard": "^7.1.2",
+    "standard-version": "*",
     "tacks": "1.0.11",
-    "tap": "^2.2.0",
+    "tap": "^12.1.1",
     "weallbehave": "*",
-    "weallcontribute": "*",
-    "standard-version": "*"
+    "weallcontribute": "*"
   },
   "dependencies": {
     "caller": "^1.0.1"
