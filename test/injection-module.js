@@ -27,7 +27,7 @@ test('setup', function (t) {
 })
 
 test('mock with details of original module', function (t) {
-  t.plan(3)
+  t.plan(4)
 
   var bmod
 
@@ -50,6 +50,7 @@ test('mock with details of original module', function (t) {
 
   t.equal(bmod.filename, bfilename)
   t.equal(bmod.id, bfilename)
+  t.equal(bmod.loaded, true)
   t.equal(bmod.parent, require.cache[__filename])
 })
 
