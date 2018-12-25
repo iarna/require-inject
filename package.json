@@ -4,7 +4,13 @@
   "description": "A simple mock injector compatible needing no instrumentation in the libraries being tested",
   "main": "index.js",
   "scripts": {
-    "test": "standard && tap test/*.js"
+    "test": "standard && tap test/*.js",
+    "prerelease": "npm t",
+    "release": "standard-version -s",
+    "postrelease": "npm publish && git push --follow-tags",
+    "pretest": "standard",
+    "update-coc": "weallbehave -o . && git add CODE_OF_CONDUCT.md && git commit -m 'docs(coc): updated CODE_OF_CONDUCT.md'",
+    "update-contrib": "weallcontribute -o . && git add CONTRIBUTING.md && git commit -m 'docs(contributing): updated CONTRIBUTING.md'"
   },
   "author": "Rebecca Turner <me@re-becca.org> (http://re-becca.org)",
   "keywords": [
@@ -22,12 +28,17 @@
   "devDependencies": {
     "standard": "^7.1.2",
     "tacks": "1.0.11",
-    "tap": "^2.2.0"
+    "tap": "^2.2.0",
+    "weallbehave": "*",
+    "weallcontribute": "*",
+    "standard-version": "*"
   },
   "dependencies": {
     "caller": "^1.0.1"
   },
   "files": [
     "index.js"
-  ]
+  ],
+  "bugs": "https://github.com/iarna/require-inject/issues",
+  "homepage": "https://npmjs.com/package/require-inject"
 }
