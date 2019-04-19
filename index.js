@@ -42,7 +42,12 @@ var requireInject = function (toLoad, mocks, withEmptyCache) {
 
   // restore the cache, we can't just assign originalCache to require.cache as the require
   // object is unique to each module, even though require.cache is shared
-  Object.keys(require.cache).forEach(function (name) { delete require.cache[name] })
+  Object.keys(require.cache).forEach(function (name) {
+    // native modules should not be reloaded.
+    if (!name.match(/\.node$/)) {
+      delete require.cache[name]
+    }
+  })
   Object.keys(originalCache).forEach(function (name) { require.cache[name] = originalCache[name] })
 
   return mocked
